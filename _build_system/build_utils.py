@@ -140,7 +140,8 @@ def make(target):
     '''
     make : add -j option automatically
     '''
-    command = ['make', '-j', str(max((multiprocessing.cpu_count() - 1, 1)))]
+    core_count = os.environ.get("BUILD_CORE_COUNT", str(max((multiprocessing.cpu_count() - 1, 1))))
+    command = ['make', '-j', core_count]
     make_call(command, target=target, force_verbose=True)
 
 
