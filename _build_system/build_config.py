@@ -208,6 +208,10 @@ def process_cmd_options(command_obj, cfs):
     if cc != "":
         command_obj.mpicxx_command = cc
 
+    cc = cfs.pop("WITH_PARALLEL", "")
+    if cc != "":
+        command_obj.with_parallel=bool(cc)
+
     for item in cmd_options:
         param, _none, hit = item
         attr = "_".join(param.split("-"))
