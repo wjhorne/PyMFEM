@@ -306,11 +306,11 @@ def configure_install(self):
     if bglb.build_serial:
         bglb.build_serial = (not bglb.swig_only and not bglb.ext_only)
 
-    #if bglb.build_parallel:
-    #    try:
-    #        import mpi4py
-    #    except ImportError:
-    #        assert False, "Can not import mpi4py"
+    if bglb.build_parallel:
+        try:
+            import mpi4py
+        except ImportError:
+            assert False, "Can not import mpi4py"
 
     if self.mfem_prefix != '':
         bglb.mfem_prefix = abspath(self.mfem_prefix)
