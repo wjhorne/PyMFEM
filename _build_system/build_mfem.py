@@ -41,13 +41,25 @@ def cmake_make_mfem(serial=True):
         if not p in rpaths:
             rpaths.append(p)
 
-    cmake_opts = {'DBUILD_SHARED_LIBS': '1',
-                  'DMFEM_ENABLE_EXAMPLES': '1',
-                  'DMFEM_ENABLE_MINIAPPS': '0',
-                  'DCMAKE_SHARED_LINKER_FLAGS': ldflags,
-                  'DMFEM_USE_ZLIB': '1',
-                  'DCMAKE_CXX_FLAGS': bglb.cxxstd_flag,
-                  'DCMAKE_BUILD_WITH_INSTALL_RPATH': '1'}
+    if os.getenv('LIBZ_LIB_DIR') is not None:
+
+        cmake_opts = {'DBUILD_SHARED_LIBS': '1',
+                      'DMFEM_ENABLE_EXAMPLES': '1',
+                      'DMFEM_ENABLE_MINIAPPS': '0',
+                      'DZLIB_LIBRARY': os.getenv('LIBZ_LIB_DIR')
+                      'DCMAKE_SHARED_LINKER_FLAGS': ldflags,
+                      'DMFEM_USE_ZLIB': '1',
+                    'DCMAKE_CXX_FLAGS': bglb.cxxstd_flag,
+                    'DCMAKE_BUILD_WITH_INSTALL_RPATH': '1'}
+    else:
+
+        cmake_opts = {'DBUILD_SHARED_LIBS': '1',
+                      'DMFEM_ENABLE_EXAMPLES': '1',
+                      'DMFEM_ENABLE_MINIAPPS': '0',
+                      'DCMAKE_SHARED_LINKER_FLAGS': ldflags,
+                      'DMFEM_USE_ZLIB': '1',
+                    'DCMAKE_CXX_FLAGS': bglb.cxxstd_flag,
+                    'DCMAKE_BUILD_WITH_INSTALL_RPATH': '1'}
 
     if sys.platform == 'darwin':
         cmake_opts["DCMAKE_MACOSX_RPATH"] = 'YES'
