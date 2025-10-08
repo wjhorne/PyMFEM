@@ -5,6 +5,7 @@ import sys
 import os
 import re
 import subprocess
+import shutil
 from sys import platform
 
 __all__ = ["make_metis_gklib", "make_metis"]
@@ -116,6 +117,13 @@ def make_metis(use_int64=False, use_real64=False):
         assert False, "metis is not downloaded"
 
     pwd = chdir(path)
+
+    # Apply patch to Makefile to fix bug in metis
+    with open("Makefile", "r") as f:
+        file_content = f.read()
+    patched_content = file_content.replace("$@ $(MAKEFLAGS);", "$@ MAKEFLAGS=$(MAKEFLAGS);")
+    with open('Makefile', "w") as f:
+        f.write(patched_content)
 
     if use_int64:
         pattern_int = "#define IDXTYPEWIDTH 32"
